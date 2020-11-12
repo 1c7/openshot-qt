@@ -18,7 +18,7 @@ linux-builder:
     - unzip artifacts.zip
     - cp -r "$CI_PROJECT_DIR/build/install-x64/python/." "$CI_PROJECT_DIR"
     - export LD_LIBRARY_PATH=$CI_PROJECT_DIR/build/install-x64/lib:$LD_LIBRARY_PATH
-    - export COMMIT_DATE_UNIX=$(git log --date=unix --format="%cd" $CI_COMMIT_SHA)
+    - export COMMIT_DATE_UNIX=$(git log --date=unix --format="%cd" -1 $CI_COMMIT_SHA)
     - echo -e "CI_PROJECT_NAME:$CI_PROJECT_NAME\nCI_COMMIT_REF_NAME:$CI_COMMIT_REF_NAME\nCI_COMMIT_SHA:$CI_COMMIT_SHA\nCI_JOB_ID:$CI_JOB_ID\nCOMMIT_DATE_UNIX:$COMMIT_DATE_UNIX" > "build/install-x64/share/$CI_PROJECT_NAME"
     - git log $(git describe --tags --abbrev=0 @^)..@ --oneline --pretty=format:"%C(auto,yellow)%h%C(auto,magenta)% %C(auto,blue)%>(12,trunc)%ad %C(auto,green)%<(25,trunc)%aN%C(auto,reset)%s%C(auto,red)% gD% D" --date=short > "build/install-x64/share/$CI_PROJECT_NAME.log"
     - cd doc; make html SPHINXOPTS="-D html_theme_options.analytics_id=UA-4381101-5"; cd ..;
@@ -62,7 +62,7 @@ mac-builder:
     - cp -r "$CI_PROJECT_DIR/build/install-x64/python/." "$CI_PROJECT_DIR"
     - export LD_LIBRARY_PATH=$CI_PROJECT_DIR/build/install-x64/lib:$LD_LIBRARY_PATH
     - export DYLD_LIBRARY_PATH=$CI_PROJECT_DIR/build/install-x64/lib:DYLD_LIBRARY_PATH
-    - export COMMIT_DATE_UNIX=$(git log --date=unix --format="%cd" $CI_COMMIT_SHA)
+    - export COMMIT_DATE_UNIX=$(git log --date=unix --format="%cd" -1 $CI_COMMIT_SHA)
     - echo -e "CI_PROJECT_NAME:$CI_PROJECT_NAME\nCI_COMMIT_REF_NAME:$CI_COMMIT_REF_NAME\nCI_COMMIT_SHA:$CI_COMMIT_SHA\nCI_JOB_ID:$CI_JOB_ID\nCOMMIT_DATE_UNIX:$COMMIT_DATE_UNIX" > "build/install-x64/share/$CI_PROJECT_NAME"
     - git log $(git describe --tags --abbrev=0 @^)..@ --oneline --pretty=format:"%C(auto,yellow)%h%C(auto,magenta)% %C(auto,blue)%>(12,trunc)%ad %C(auto,green)%<(25,trunc)%aN%C(auto,reset)%s%C(auto,red)% gD% D" --date=short > "build/install-x64/share/$CI_PROJECT_NAME.log"
     - /Library/Frameworks/Python.Framework/Versions/3.6/bin/python3.6 -u freeze.py bdist_mac --iconfile=installer/openshot.icns --custom-info-plist=installer/Info.plist --bundle-name="OpenShot Video Editor"
